@@ -1,6 +1,7 @@
 import 'dotenv/config'
 
-const port = process.env.PORT;
+// use port 3000 unless there exists a preconfigured port
+const port = process.env.PORT || 3000;
 
 import express from 'express';
 import bodyParser from 'body-parser';
