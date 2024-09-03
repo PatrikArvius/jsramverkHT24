@@ -19,7 +19,10 @@ const docs = {
         let db = await openDb();
 
         try {
-            return await db.get('SELECT * FROM documents WHERE rowid=?', id);
+            return await db.get(
+                'SELECT rowid as id, * FROM documents WHERE rowid=?',
+                id
+            );
         } catch (e) {
             console.error(e);
 
@@ -36,14 +39,31 @@ const docs = {
             return await db.run(
                 'INSERT INTO documents (title, content) VALUES (?, ?)',
                 body.title,
-                body.content,
+                body.content
             );
         } catch (e) {
             console.error(e);
         } finally {
             await db.close();
         }
-    }
+    },
+
+    updateOne: async function updateOne(body) {
+        let db = await openDb();
+
+        try {
+            return await db.run(
+                'UPDATE documents SET (title, content) VALUES (?, ?) WHERE rowid=?',
+                body.title,
+                body.content,
+                body.id
+            );
+        } catch (e) {
+            console.error(e);
+        } finally {
+            await db.close();
+        }
+    },
 };
 
 export default docs;

@@ -20,10 +20,10 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(process.cwd(), 'public')));
 
 // don't show the log when it is test
-if (process.env.NODE_ENV !== 'test') {
+/* if (process.env.NODE_ENV !== 'test') {
     // use morgan to log at command line
     app.use(morgan('combined')); // 'combined' outputs the Apache style LOGs
-}
+} */
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -31,15 +31,26 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post('/', async (req, res) => {
     const result = await documents.addOne(req.body);
 
-    return res.redirect(`/${result.lastID}`);
+    return res.redirect('/');
 });
 
 app.get('/:id', async (req, res) => {
-    return res.render('doc', { doc: await documents.getOne(req.params.id) });
+    const id = req.params.id;
+    const doc = await documents.getOne(id);
+    console.log(doc);
+    return res.render('doc', { doc: doc });
 });
 
 app.get('/', async (req, res) => {
     return res.render('index', { docs: await documents.getAll() });
+});
+
+app.put('/', async (req, res) => {
+    console.log(req.body);
+
+    /* const result = await documents.updateOne(req.body);
+
+    return res.redirect(`/${result.lastID}`); */
 });
 
 app.listen(port, () => {
