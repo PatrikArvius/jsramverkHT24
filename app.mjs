@@ -35,22 +35,17 @@ app.post('/', async (req, res) => {
 });
 
 app.get('/:id', async (req, res) => {
-    const id = req.params.id;
-    const doc = await documents.getOne(id);
-    console.log(doc);
-    return res.render('doc', { doc: doc });
+    return res.render('doc', { doc: await documents.getOne(req.params.id) });
 });
 
 app.get('/', async (req, res) => {
     return res.render('index', { docs: await documents.getAll() });
 });
 
-app.put('/', async (req, res) => {
-    console.log(req.body);
+app.put('/:id', async (req, res) => {
+    const result = await documents.updateOne(req.params.id, req.body);
 
-    /* const result = await documents.updateOne(req.body);
-
-    return res.redirect(`/${result.lastID}`); */
+    res.send(result);
 });
 
 app.listen(port, () => {
