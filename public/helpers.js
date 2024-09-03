@@ -1,19 +1,24 @@
-const updateForm = document.querySelector('#update-form');
+const updateBtn = document.querySelector('.update-btn');
 
-updateForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const formData = new FormData(updateForm);
+updateBtn.addEventListener('click', updateOne);
 
-    const title = formData.get('title');
-    const content = formData.get('content');
+async function updateOne() {
+    const title = document.querySelector('.update-title').value;
+    const content = document.querySelector('.update-content').value;
+    const id = location.pathname.split('/')[1];
 
-    const response = await fetch('http://localhost:3000', {
+    const body = {
+        title,
+        content,
+    };
+
+    const res = await fetch(`http://localhost:3000/${id}`, {
         method: 'PUT',
-        body: JSON.stringify({ title, content }),
+        body: JSON.stringify(body),
         headers: {
             'Content-Type': 'application/json',
         },
     });
 
-    console.log(response);
-});
+    location.href = '/';
+}
