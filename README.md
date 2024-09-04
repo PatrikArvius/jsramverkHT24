@@ -25,7 +25,7 @@ npm install
 
 Kör följande kommando för att upptäcka och åtgärda eventuella säkerhetshål.
 ```
-npm install
+npm audit
 ```
 
 Det upptäcktes inte några sådana i detta läge.
