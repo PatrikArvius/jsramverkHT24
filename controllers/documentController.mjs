@@ -1,4 +1,4 @@
-import Document from "./models/documentModel.mjs";
+import Document from "../models/documentModel.mjs";
 
     export async function getAll(req,res) {
         try {

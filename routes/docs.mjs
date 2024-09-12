@@ -1,5 +1,5 @@
 import express from 'express';
-import {addOne, getAll, getOne, updateOne, deleteOne} from '../docs.mjs';
+import {addOne, getAll, getOne, updateOne, deleteOne} from '../controllers/documentController.mjs';
 
 const router = express.Router();
 
