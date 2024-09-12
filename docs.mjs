@@ -1,69 +1,117 @@
-import openDb from './db/database.mjs';
+import Document from "./models/documentModel.mjs";
 
-const docs = {
-    getAll: async function getAll() {
-        let db = await openDb();
-
+    export async function getAll(req,res) {
         try {
-            return await db.all('SELECT rowid as id, * FROM documents');
+            const docs = await Document.find();
+            res.status(200).json(docs);
         } catch (e) {
-            console.error(e);
-
-            return [];
-        } finally {
-            await db.close();
+            res.status(500).json({
+                errors: {
+                    status: 500,
+                    type: "get",
+                    source: "/",
+                    title: "Database error",
+                    detail: e.message
+                }
+            });
         }
-    },
+    }
 
-    getOne: async function getOne(id) {
-        let db = await openDb();
-
+    export async function getOne(req,res) {
+        const id = req.params.id
         try {
-            return await db.get(
-                'SELECT rowid as id, * FROM documents WHERE rowid=?',
-                id
-            );
+            const doc = await Document.findById(id);
+
+            if (!doc) {
+                return res
+                    .status(404)
+                    .json({ message: 'No doc found with that ID' });
+            }
+            res.status(200).json(doc);
         } catch (e) {
-            console.error(e);
-
-            return {};
-        } finally {
-            await db.close();
+            res.status(500).json({
+                errors: {
+                    status: 500,
+                    type: "get",
+                    source: "/:id",
+                    title: "Database error",
+                    detail: e.message
+                }
+            });
         }
-    },
+    }
 
-    addOne: async function addOne(body) {
-        let db = await openDb();
+export async function addOne(req,res) {
+    const title = req.body.title;
+    const content = req.body.content;
 
-        try {
-            return await db.run(
-                'INSERT INTO documents (title, content) VALUES (?, ?)',
-                body.title,
-                body.content
-            );
-        } catch (e) {
-            console.error(e);
-        } finally {
-            await db.close();
-        }
-    },
+    if (!title || !content) {
+        return res.status(400).json({ message: 'Must include title and content' });
+    }
+    
+    try {
+        const doc = await Document.create({title, content});
+        res.status(201).json(doc);
+        
+    } catch (e) {
+        res.status(500).json({
+            errors: {
+                status: 500,
+                type: "post",
+                source: "/",
+                title: "Database error",
+                detail: e.message
+            }
+        });
+    }
 
-    updateOne: async function updateOne(id, body) {
-        let db = await openDb();
+}
 
-        try {
-            return await db.run(
-                'UPDATE documents SET title = ?, content = ? WHERE rowid = ?',
-                body.title,
-                body.content,
-                id
-            );
-        } catch (e) {
-            console.error(e);
-        } finally {
-            await db.close();
-        }
-    },
-};
+export async function updateOne(req,res) {
 
-export default docs;
+    const title = req.body.title;
+    const content = req.body.content;
+    const id = req.params.id;
+
+    if (!title || !content) {
+        return res.status(400).json({ message: 'Must include title and content' });
+    }
+
+    try {
+        const doc = await Document.findOneAndUpdate({_id: id},{title: title, content: content});
+        res.status(201).json(doc);
+
+    } catch (e) {
+        res.status(500).json({
+            errors: {
+                status: 500,
+                type: "put",
+                source: "/:id",
+                title: "Database error",
+                detail: e.message
+            }
+        });
+    }
+}
+
+export async function deleteOne(req,res) {
+
+    const id = req.params.id;
+
+    try {
+        const doc = await Document.findOneAndDelete({_id: id});
+        res.status(200).json({
+            status: 'deleted'});
+
+    } catch (e) {
+        res.status(500).json({
+            errors: {
+                status: 500,
+                type: "delete",
+                source: "/:id",
+                title: "Database error",
+                detail: e.message
+            }
+        });
+    }
+}

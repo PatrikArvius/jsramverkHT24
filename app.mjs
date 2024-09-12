@@ -9,7 +9,7 @@ import path from 'path';
 import morgan from 'morgan';
 import cors from 'cors';
 import docs from './routes/docs.mjs';
-
+import openDb from './db/database.mjs';
 const app = express();
 
 app.disable('x-powered-by');
@@ -28,6 +28,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/', docs);
+
+openDb()
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
