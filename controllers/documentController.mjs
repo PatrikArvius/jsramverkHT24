@@ -7,11 +7,13 @@ export async function getAll(req, res) {
         res.status(200).json(docs);
     } catch (e) {
         res.status(500).json({
-            status: 500,
-            type: 'get',
-            source: '/',
-            title: 'Database error',
-            detail: e.message,
+            error: {
+                status: 500,
+                type: 'get',
+                source: '/',
+                title: 'Database error',
+                detail: e.message,
+            },
         });
     }
 }
@@ -20,7 +22,9 @@ export async function getOne(req, res) {
     const id = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ message: 'No doc found with that ID' });
+        return res
+            .status(404)
+            .json({ message: 'No document found with the provided ID' });
     }
 
     try {
@@ -29,17 +33,19 @@ export async function getOne(req, res) {
         if (!doc) {
             return res
                 .status(404)
-                .json({ message: 'No doc found with that ID' });
+                .json({ message: 'No document found with the provided ID' });
         }
 
         res.status(200).json(doc);
     } catch (e) {
         res.status(500).json({
-            status: 500,
-            type: 'get',
-            source: '/:id',
-            title: 'Database error',
-            detail: e.message,
+            error: {
+                status: 500,
+                type: 'get',
+                source: '/:id',
+                title: 'Database error',
+                detail: e.message,
+            },
         });
     }
 }
@@ -51,7 +57,7 @@ export async function addOne(req, res) {
     if (!title || !content) {
         return res
             .status(400)
-            .json({ message: 'Must include title and content' });
+            .json({ message: 'Please fill in all the fields' });
     }
 
     try {
@@ -59,11 +65,13 @@ export async function addOne(req, res) {
         res.status(201).json(doc);
     } catch (e) {
         res.status(500).json({
-            status: 500,
-            type: 'post',
-            source: '/',
-            title: 'Database error',
-            detail: e.message,
+            error: {
+                status: 500,
+                type: 'post',
+                source: '/',
+                title: 'Database error',
+                detail: e.message,
+            },
         });
     }
 }
@@ -74,13 +82,15 @@ export async function updateOne(req, res) {
     const id = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ message: 'No doc found with that ID' });
+        return res
+            .status(404)
+            .json({ message: 'No document found with the provided ID' });
     }
 
     if (!title || !content) {
         return res
             .status(400)
-            .json({ message: 'Must include title and content' });
+            .json({ message: 'Please fill in all the fields' });
     }
 
     try {
@@ -93,17 +103,19 @@ export async function updateOne(req, res) {
         if (!doc) {
             return res
                 .status(404)
-                .json({ message: 'No doc found with that ID' });
+                .json({ message: 'No document found with the provided ID' });
         }
 
         res.status(200).json(doc);
     } catch (e) {
         res.status(500).json({
-            status: 500,
-            type: 'put',
-            source: '/:id',
-            title: 'Database error',
-            detail: e.message,
+            error: {
+                status: 500,
+                type: 'put',
+                source: '/:id',
+                title: 'Database error',
+                detail: e.message,
+            },
         });
     }
 }
@@ -112,7 +124,9 @@ export async function deleteOne(req, res) {
     const id = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ message: 'No doc found with that ID' });
+        return res
+            .status(404)
+            .json({ message: 'No document found with the provided ID' });
     }
 
     try {
@@ -121,17 +135,19 @@ export async function deleteOne(req, res) {
         if (!doc) {
             return res
                 .status(404)
-                .json({ message: 'No doc found with that ID' });
+                .json({ message: 'No document found with the provided ID' });
         }
 
         res.status(200).json({ message: 'Document deleted successfully' });
     } catch (e) {
         res.status(500).json({
-            status: 500,
-            type: 'delete',
-            source: '/:id',
-            title: 'Database error',
-            detail: e.message,
+            error: {
+                status: 500,
+                type: 'delete',
+                source: '/:id',
+                title: 'Database error',
+                detail: e.message,
+            },
         });
     }
 }
