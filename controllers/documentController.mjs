@@ -1,4 +1,5 @@
 import Document from '../models/documentModel.mjs';
+import mongoose from 'mongoose';
 
 export async function getAll(req, res) {
     try {
@@ -6,7 +7,7 @@ export async function getAll(req, res) {
         res.status(200).json(docs);
     } catch (e) {
         res.status(500).json({
-            errors: {
+            error: {
                 status: 500,
                 type: 'get',
                 source: '/',
@@ -19,18 +20,26 @@ export async function getAll(req, res) {
 
 export async function getOne(req, res) {
     const id = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res
+            .status(404)
+            .json({ message: 'No document found with the provided ID' });
+    }
+
     try {
         const doc = await Document.findById(id);
 
         if (!doc) {
             return res
                 .status(404)
-                .json({ message: 'No doc found with that ID' });
+                .json({ message: 'No document found with the provided ID' });
         }
+
         res.status(200).json(doc);
     } catch (e) {
         res.status(500).json({
-            errors: {
+            error: {
                 status: 500,
                 type: 'get',
                 source: '/:id',
@@ -48,7 +57,7 @@ export async function addOne(req, res) {
     if (!title || !content) {
         return res
             .status(400)
-            .json({ message: 'Must include title and content' });
+            .json({ message: 'Please fill in all the fields' });
     }
 
     try {
@@ -56,7 +65,7 @@ export async function addOne(req, res) {
         res.status(201).json(doc);
     } catch (e) {
         res.status(500).json({
-            errors: {
+            error: {
                 status: 500,
                 type: 'post',
                 source: '/',
@@ -72,10 +81,16 @@ export async function updateOne(req, res) {
     const content = req.body.content;
     const id = req.params.id;
 
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res
+            .status(404)
+            .json({ message: 'No document found with the provided ID' });
+    }
+
     if (!title || !content) {
         return res
             .status(400)
-            .json({ message: 'Must include title and content' });
+            .json({ message: 'Please fill in all the fields' });
     }
 
     try {
@@ -84,10 +99,17 @@ export async function updateOne(req, res) {
             { title: title, content: content },
             { new: true, runValidators: true }
         );
-        res.status(201).json(doc);
+
+        if (!doc) {
+            return res
+                .status(404)
+                .json({ message: 'No document found with the provided ID' });
+        }
+
+        res.status(200).json(doc);
     } catch (e) {
         res.status(500).json({
-            errors: {
+            error: {
                 status: 500,
                 type: 'put',
                 source: '/:id',
@@ -101,14 +123,25 @@ export async function updateOne(req, res) {
 export async function deleteOne(req, res) {
     const id = req.params.id;
 
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res
+            .status(404)
+            .json({ message: 'No document found with the provided ID' });
+    }
+
     try {
         const doc = await Document.findOneAndDelete({ _id: id });
-        res.status(200).json({
-            status: 'deleted',
-        });
+
+        if (!doc) {
+            return res
+                .status(404)
+                .json({ message: 'No document found with the provided ID' });
+        }
+
+        res.status(200).json({ message: 'Document deleted successfully' });
     } catch (e) {
         res.status(500).json({
-            errors: {
+            error: {
                 status: 500,
                 type: 'delete',
                 source: '/:id',
