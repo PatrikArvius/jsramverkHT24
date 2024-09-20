@@ -1,7 +1,7 @@
-import Document from '../models/documentModel.mjs';
-import mongoose from 'mongoose';
+const Document = require('../models/documentModel.js');
+const mongoose = require('mongoose');
 
-export async function getAll(req, res) {
+async function getAll(req, res) {
     try {
         const docs = await Document.find();
         res.status(200).json(docs);
@@ -18,7 +18,7 @@ export async function getAll(req, res) {
     }
 }
 
-export async function getOne(req, res) {
+async function getOne(req, res) {
     const id = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -50,7 +50,7 @@ export async function getOne(req, res) {
     }
 }
 
-export async function addOne(req, res) {
+async function addOne(req, res) {
     const title = req.body.title;
     const content = req.body.content;
 
@@ -76,7 +76,7 @@ export async function addOne(req, res) {
     }
 }
 
-export async function updateOne(req, res) {
+async function updateOne(req, res) {
     const title = req.body.title;
     const content = req.body.content;
     const id = req.params.id;
@@ -120,7 +120,7 @@ export async function updateOne(req, res) {
     }
 }
 
-export async function deleteOne(req, res) {
+async function deleteOne(req, res) {
     const id = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -151,3 +151,11 @@ export async function deleteOne(req, res) {
         });
     }
 }
+
+module.exports = {
+    getAll,
+    getOne,
+    addOne,
+    updateOne,
+    deleteOne,
+};

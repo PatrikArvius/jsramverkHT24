@@ -1,13 +1,10 @@
-import 'dotenv/config';
-
-// use port 3000 unless there exists a preconfigured port
+require('dotenv/config');
 const port = process.env.PORT || 3000;
-
-import express from 'express';
-import morgan from 'morgan';
-import cors from 'cors';
-import docs from './routes/docs.mjs';
-import openDb from './db/database.mjs';
+const express = require('express');
+const morgan = require('morgan');
+const cors = require('cors');
+const docs = require('./routes/docs.js');
+const { openDb } = require('./db/database.js');
 const app = express();
 
 app.disable('x-powered-by');
@@ -20,12 +17,14 @@ app.disable('x-powered-by');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors())
+app.use(cors());
 
 app.use('/api/documents', docs);
 
 openDb();
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
+
+module.exports = server;

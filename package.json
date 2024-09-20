@@ -4,8 +4,8 @@
     "description": "Starter project for DV1677 JSRamverk",
     "main": "index.js",
     "scripts": {
-        "start": "node --watch app.mjs",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "NODE_ENV=production node --watch app.js",
+        "test": "NODE_ENV=test jest --coverage"
     },
     "keywords": [],
     "author": "",
@@ -19,5 +19,9 @@
         "morgan": "^1.10.0",
         "sqlite": "^5.1.1",
         "sqlite3": "^5.1.7"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0",
+        "supertest": "^7.0.0"
     }
 }
