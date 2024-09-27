@@ -34,3 +34,5 @@ jobs:
               env:
                   MONGOURI_TEST: ${{ secrets.TEST_DB_URI }}
             - run: npm run test
+              env:
+                  MONGOURI_TEST: ${{ secrets.TEST_DB_URI }}
