@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1726832710368" clover="3.2.0">
-  <project timestamp="1726832710368" name="All files">
-    <metrics statements="84" coveredstatements="84" conditionals="26" coveredconditionals="23" methods="8" coveredmethods="8" elements="118" coveredelements="115" complexity="0" loc="84" ncloc="84" packages="5" files="5" classes="5"/>
-    <package name="jsramverkHT24-backend">
-      <metrics statements="17" coveredstatements="17" conditionals="2" coveredconditionals="1" methods="1" coveredmethods="1"/>
-      <file name="app.js" path="/Users/jakoberiksson/git/jsramverkHT24-backend/app.js">
-        <metrics statements="17" coveredstatements="17" conditionals="2" coveredconditionals="1" methods="1" coveredmethods="1"/>
+<coverage generated="1727440412307" clover="3.2.0">
+  <project timestamp="1727440412308" name="All files">
+    <metrics statements="83" coveredstatements="83" conditionals="26" coveredconditionals="23" methods="8" coveredmethods="8" elements="117" coveredelements="114" complexity="0" loc="83" ncloc="83" packages="5" files="5" classes="5"/>
+    <package name="jsramverk">
+      <metrics statements="16" coveredstatements="16" conditionals="2" coveredconditionals="1" methods="1" coveredmethods="1"/>
+      <file name="app.js" path="/home/parv/dbwebb-kurser/jsramverk/app.js">
+        <metrics statements="16" coveredstatements="16" conditionals="2" coveredconditionals="1" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="3" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
@@ -25,9 +24,9 @@
         <line num="30" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="jsramverkHT24-backend.controllers">
+    <package name="jsramverk.controllers">
       <metrics statements="46" coveredstatements="46" conditionals="20" coveredconditionals="20" methods="5" coveredmethods="5"/>
-      <file name="documentController.js" path="/Users/jakoberiksson/git/jsramverkHT24-backend/controllers/documentController.js">
+      <file name="documentController.js" path="/home/parv/dbwebb-kurser/jsramverk/controllers/documentController.js">
         <metrics statements="46" coveredstatements="46" conditionals="20" coveredconditionals="20" methods="5" coveredmethods="5"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -77,9 +76,9 @@
         <line num="155" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="jsramverkHT24-backend.db">
+    <package name="jsramverk.db">
       <metrics statements="7" coveredstatements="7" conditionals="4" coveredconditionals="2" methods="2" coveredmethods="2"/>
-      <file name="database.js" path="/Users/jakoberiksson/git/jsramverkHT24-backend/db/database.js">
+      <file name="database.js" path="/home/parv/dbwebb-kurser/jsramverk/db/database.js">
         <metrics statements="7" coveredstatements="7" conditionals="4" coveredconditionals="2" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="4" count="4" type="cond" truecount="1" falsecount="1"/>
@@ -90,9 +89,9 @@
         <line num="16" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="jsramverkHT24-backend.models">
+    <package name="jsramverk.models">
       <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="documentModel.js" path="/Users/jakoberiksson/git/jsramverkHT24-backend/models/documentModel.js">
+      <file name="documentModel.js" path="/home/parv/dbwebb-kurser/jsramverk/models/documentModel.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -101,9 +100,9 @@
         <line num="14" count="1" type="stmt"/>
       </file>
     </package>
-    <package name="jsramverkHT24-backend.routes">
+    <package name="jsramverk.routes">
       <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="docs.js" path="/Users/jakoberiksson/git/jsramverkHT24-backend/routes/docs.js">
+      <file name="docs.js" path="/home/parv/dbwebb-kurser/jsramverk/routes/docs.js">
         <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
