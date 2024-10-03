@@ -22,7 +22,6 @@ async function verifyToken(req, res, next) {
 
 async function getToken(res, password, user) {
     bcrypt.compare(password, user.password, (err, result) => {
-        console.log(user.password);
         if (err) {
             return res.status(500).json({
                 error: {
@@ -40,6 +39,7 @@ async function getToken(res, password, user) {
                 status: 200,
                 title: 'Logged in',
                 detail: `${user.email} logged in and received token`,
+                email: user.email,
                 token: token,
             });
         }
