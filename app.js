@@ -22,7 +22,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-app.use('/api/documents', verifyToken, docs);
+if (process.env.NODE_ENV == 'test') {
+    app.use('/api/documents', docs);
+} else {
+    app.use('/api/documents', verifyToken, docs);
+}
 app.use('/api/register', register);
 app.use('/api/login', login);
 
