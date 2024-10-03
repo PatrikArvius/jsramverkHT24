@@ -17,14 +17,14 @@ async function loginUser(req, res) {
     }
 
     try {
-        const user = await User.find({ email: email }).exec();
+        const user = await User.findOne({ email: email }).exec();
 
         if (!user) {
             return res
                 .status(404)
                 .json({ message: 'No user found with the provided email' });
         }
-        getToken(res, password, user[0]);
+        getToken(res, password, user);
     } catch (e) {
         res.status(500).json({
             error: {
