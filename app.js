@@ -6,6 +6,7 @@ const cors = require('cors');
 const docs = require('./routes/docs.js');
 const register = require('./routes/register.js');
 const login = require('./routes/login.js');
+const share = require('./routes/share.js');
 const { openDb } = require('./db/database.js');
 const app = express();
 const { verifyToken } = require('./controllers/authentication.js');
@@ -25,6 +26,7 @@ app.use(cors());
 if (process.env.NODE_ENV == 'test') {
     app.use('/api/documents', docs);
 } else {
+    app.use('/api/share', verifyToken, share);
     app.use('/api/documents', verifyToken, docs);
 }
 app.use('/api/register', register);
