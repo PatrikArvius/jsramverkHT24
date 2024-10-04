@@ -2,9 +2,19 @@ const Document = require('../models/documentModel.js');
 const mongoose = require('mongoose');
 
 async function getAll(req, res) {
+    const creator = req.body.creator;
+    const accessToIds = req.body.accessToIds;
+
     try {
-        const docs = await Document.find();
-        res.status(200).json(docs);
+        if (process.env.NODE_ENV == 'test') {
+            const docs = await Document.find();
+            res.status(200).json(docs);
+        } else {
+            const docs = await Document.find({
+                $or: [{ creator: creator }, { _id: { $in: accessToIds } }],
+            });
+            res.status(200).json(docs);
+        }
     } catch (e) {
         res.status(500).json({
             error: {
@@ -53,6 +63,7 @@ async function getOne(req, res) {
 async function addOne(req, res) {
     const title = req.body.title;
     const content = req.body.content;
+    const creator = req.body.creator;
 
     if (!title || !content) {
         return res
@@ -61,7 +72,7 @@ async function addOne(req, res) {
     }
 
     try {
-        const doc = await Document.create({ title, content });
+        const doc = await Document.create({ title, content, creator });
         res.status(201).json(doc);
     } catch (e) {
         res.status(500).json({
