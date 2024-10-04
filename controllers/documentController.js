@@ -2,8 +2,8 @@ const Document = require('../models/documentModel.js');
 const mongoose = require('mongoose');
 
 async function getAll(req, res) {
-    const creator = req.body.creator;
-    const accessToIds = req.body.accessToIds;
+    const creator = req.user.email;
+    const accessToIds = req.user.accessToIds;
 
     try {
         if (process.env.NODE_ENV == 'test') {
