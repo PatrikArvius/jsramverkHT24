@@ -2,14 +2,13 @@ const Document = require('../models/documentModel.js');
 const mongoose = require('mongoose');
 
 async function getAll(req, res) {
-    const creator = req.body.creator;
-    const accessToIds = req.body.accessToIds;
-
     try {
         if (process.env.NODE_ENV == 'test') {
             const docs = await Document.find();
             res.status(200).json(docs);
         } else {
+            const creator = req.user.email;
+            const accessToIds = req.user.accessToIds;
             const docs = await Document.find({
                 $or: [{ creator: creator }, { _id: { $in: accessToIds } }],
             });

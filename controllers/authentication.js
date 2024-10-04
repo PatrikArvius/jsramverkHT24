@@ -1,23 +1,24 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const secret = process.env.JWT_SECRET;
+const User = require('../models/userModel');
 
 async function verifyToken(req, res, next) {
     const token = req.headers['x-access-token'];
 
-    jwt.verify(token, secret, function (err) {
-        if (err) {
-            return res.status(500).json({
-                error: {
-                    status: 500,
-                    title: 'Failed authentication',
-                    detail: err.message,
-                },
-            });
-        }
-
+    try {
+        const { email } = jwt.verify(token, secret);
+        req.user = await User.findOne({ email });
         next();
-    });
+    } catch (error) {
+        return res.status(500).json({
+            error: {
+                status: 500,
+                title: 'Failed authentication',
+                detail: error.message,
+            },
+        });
+    }
 }
 
 async function getToken(res, password, user) {
