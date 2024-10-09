@@ -7,22 +7,20 @@ async function getAll(req, res) {
             const docs = await Document.find();
             res.status(200).json(docs);
         } else {
-            const creator = req.user.email;
-            const accessToIds = req.user.accessToIds;
+            const email = req.user.email;
+
             const docs = await Document.find({
-                $or: [{ creator: creator }, { _id: { $in: accessToIds } }],
+                $or: [{ creator: email }, { docAccess: { $in: [email] } }],
             });
             res.status(200).json(docs);
         }
     } catch (e) {
         res.status(500).json({
-            error: {
-                status: 500,
-                type: 'get',
-                source: '/',
-                title: 'Database error',
-                detail: e.message,
-            },
+            status: 500,
+            type: 'get',
+            source: '/',
+            title: 'Database error',
+            message: e.message,
         });
     }
 }
@@ -31,30 +29,24 @@ async function getOne(req, res) {
     const id = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res
-            .status(404)
-            .json({ message: 'No document found with the provided ID' });
+        return res.status(404).json({ message: 'No document found with the provided ID' });
     }
 
     try {
         const doc = await Document.findById(id);
 
         if (!doc) {
-            return res
-                .status(404)
-                .json({ message: 'No document found with the provided ID' });
+            return res.status(404).json({ message: 'No document found with the provided ID' });
         }
 
         res.status(200).json(doc);
     } catch (e) {
         res.status(500).json({
-            error: {
-                status: 500,
-                type: 'get',
-                source: '/:id',
-                title: 'Database error',
-                detail: e.message,
-            },
+            status: 500,
+            type: 'get',
+            source: '/:id',
+            title: 'Database error',
+            message: e.message,
         });
     }
 }
@@ -65,9 +57,7 @@ async function addOne(req, res) {
     const creator = req.body.creator;
 
     if (!title || !content) {
-        return res
-            .status(400)
-            .json({ message: 'Please fill in all the fields' });
+        return res.status(400).json({ message: 'Please fill in all the fields' });
     }
 
     try {
@@ -75,13 +65,11 @@ async function addOne(req, res) {
         res.status(201).json(doc);
     } catch (e) {
         res.status(500).json({
-            error: {
-                status: 500,
-                type: 'post',
-                source: '/',
-                title: 'Database error',
-                detail: e.message,
-            },
+            status: 500,
+            type: 'post',
+            source: '/',
+            title: 'Database error',
+            message: e.message,
         });
     }
 }
@@ -92,40 +80,28 @@ async function updateOne(req, res) {
     const id = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res
-            .status(404)
-            .json({ message: 'No document found with the provided ID' });
+        return res.status(404).json({ message: 'No document found with the provided ID' });
     }
 
     if (!title || !content) {
-        return res
-            .status(400)
-            .json({ message: 'Please fill in all the fields' });
+        return res.status(400).json({ message: 'Please fill in all the fields' });
     }
 
     try {
-        const doc = await Document.findOneAndUpdate(
-            { _id: id },
-            { title: title, content: content },
-            { new: true, runValidators: true }
-        );
+        const doc = await Document.findOneAndUpdate({ _id: id }, { title: title, content: content }, { new: true, runValidators: true });
 
         if (!doc) {
-            return res
-                .status(404)
-                .json({ message: 'No document found with the provided ID' });
+            return res.status(404).json({ message: 'No document found with the provided ID' });
         }
 
         res.status(200).json(doc);
     } catch (e) {
         res.status(500).json({
-            error: {
-                status: 500,
-                type: 'put',
-                source: '/:id',
-                title: 'Database error',
-                detail: e.message,
-            },
+            status: 500,
+            type: 'put',
+            source: '/:id',
+            title: 'Database error',
+            message: e.message,
         });
     }
 }
@@ -134,30 +110,24 @@ async function deleteOne(req, res) {
     const id = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res
-            .status(404)
-            .json({ message: 'No document found with the provided ID' });
+        return res.status(404).json({ message: 'No document found with the provided ID' });
     }
 
     try {
         const doc = await Document.findOneAndDelete({ _id: id });
 
         if (!doc) {
-            return res
-                .status(404)
-                .json({ message: 'No document found with the provided ID' });
+            return res.status(404).json({ message: 'No document found with the provided ID' });
         }
 
         res.status(200).json({ message: 'Document deleted successfully' });
     } catch (e) {
         res.status(500).json({
-            error: {
-                status: 500,
-                type: 'delete',
-                source: '/:id',
-                title: 'Database error',
-                detail: e.message,
-            },
+            status: 500,
+            type: 'delete',
+            source: '/:id',
+            title: 'Database error',
+            message: e.message,
         });
     }
 }

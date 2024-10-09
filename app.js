@@ -4,6 +4,7 @@ const express = require('express');
 //const morgan = require('morgan');
 const cors = require('cors');
 const docs = require('./routes/docs.js');
+const users = require('./routes/users.js');
 const register = require('./routes/register.js');
 const login = require('./routes/login.js');
 const share = require('./routes/share.js');
@@ -28,6 +29,7 @@ if (process.env.NODE_ENV == 'test') {
 } else {
     app.use('/api/share', verifyToken, share);
     app.use('/api/documents', verifyToken, docs);
+    app.use('/api/users', verifyToken, users);
 }
 app.use('/api/register', register);
 app.use('/api/login', login);
