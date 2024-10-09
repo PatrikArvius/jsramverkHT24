@@ -11,12 +11,10 @@ async function verifyToken(req, res, next) {
         req.user = await User.findOne({ email });
         next();
     } catch (error) {
-        return res.status(500).json({
-            error: {
-                status: 500,
-                title: 'Failed authentication',
-                detail: error.message,
-            },
+        return res.status(401).json({
+            status: 401,
+            message: 'Failed authentication',
+            detal: error.message,
         });
     }
 }
@@ -25,12 +23,10 @@ async function getToken(res, password, user) {
     bcrypt.compare(password, user.password, (err, result) => {
         if (err) {
             return res.status(500).json({
-                error: {
-                    status: 500,
-                    title: 'Bcrypt error',
-                    source: '/login',
-                    detail: err.message,
-                },
+                status: 500,
+                title: 'Bcrypt error',
+                source: '/login',
+                detail: err.message,
             });
         } else if (result) {
             const payload = { email: user.email };
@@ -39,19 +35,17 @@ async function getToken(res, password, user) {
             return res.status(200).json({
                 status: 200,
                 title: 'Logged in',
-                detail: `${user.email} logged in and received token`,
+                message: `${user.email} logged in and received token`,
                 email: user.email,
                 token: token,
             });
         }
 
         return res.status(401).json({
-            error: {
-                status: 401,
-                title: 'Login failed',
-                source: '/login',
-                detail: 'The provided password was incorrect',
-            },
+            status: 401,
+            title: 'Login failed',
+            source: '/login',
+            message: 'The provided password was incorrect',
         });
     });
 }

@@ -6,6 +6,7 @@ const documentSchema = new Schema(
         title: { type: String, required: true },
         content: { type: String, required: true },
         creator: { type: String },
+        docAccess: [{ type: String }],
     },
     { timestamps: true }
 );

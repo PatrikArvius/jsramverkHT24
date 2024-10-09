@@ -7,12 +7,10 @@ async function registerUser(req, res) {
 
     if (!(email && password)) {
         return res.status(400).json({
-            error: {
-                status: 400,
-                title: 'Registration error',
-                source: '/register',
-                detail: 'email or password is missing',
-            },
+            status: 400,
+            title: 'Registration error',
+            source: '/register',
+            message: 'email or password is missing',
         });
     }
     const salt = await bcrypt.genSalt(10);
@@ -25,13 +23,11 @@ async function registerUser(req, res) {
         });
     } catch (e) {
         res.status(500).json({
-            error: {
-                status: 500,
-                type: 'post',
-                source: '/',
-                title: 'Database error',
-                detail: e.message,
-            },
+            status: 500,
+            type: 'post',
+            source: '/',
+            title: 'Database error',
+            message: e.message,
         });
     }
 }
