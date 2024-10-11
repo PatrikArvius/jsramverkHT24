@@ -18,7 +18,7 @@ const Document = require('./models/documentModel.js');
 const httpServer = http.createServer(app);
 let timeout;
 
-const origin = /* process.env.CLIENT_URL || */ 'http://localhost:5173';
+const origin = process.env.CLIENT_URL; //'http://localhost:5173';
 
 const io = new Server(httpServer, {
     cors: {
