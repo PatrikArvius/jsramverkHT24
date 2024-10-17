@@ -1,12 +1,19 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+const commentSchema = new Schema({
+    commentator: { type: String, required: true },
+    text: { type: String, required: true },
+    comment: { type: String, required: true },
+});
+
 const documentSchema = new Schema(
     {
         title: { type: String, required: true },
         content: { type: String, required: true },
         creator: { type: String },
         docAccess: [{ type: String }],
+        docComments: [commentSchema],
     },
     { timestamps: true }
 );
