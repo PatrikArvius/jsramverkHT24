@@ -120,4 +120,35 @@ async function unshareDoc(req, res) {
     }
 }
 
-module.exports = { shareDoc, unshareDoc };
+async function deleteComment(req, res) {
+    const docId = req.body.docId;
+    const commentId = req.body.commentId;
+
+    try {
+        const doc = await Document.findOne({ _id: docId });
+
+        if (!doc.docComments._id === commentId) {
+            return res.status(400).json({
+                message: `Document does not have comment: ${commentId}`,
+            });
+        }
+
+        doc.docComments.pull(commentId);
+        const document = await doc.save();
+
+        res.status(200).json({
+            document: document,
+            message: `Document comment: ${commentId} has been deleted.`,
+        });
+    } catch (e) {
+        res.status(500).json({
+            status: 500,
+            type: 'put',
+            source: '/share/unshare',
+            title: 'Database error',
+            message: e.message,
+        });
+    }
+}
+
+module.exports = { shareDoc, unshareDoc, deleteComment };

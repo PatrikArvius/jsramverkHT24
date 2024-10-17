@@ -18,7 +18,7 @@ const Document = require('./models/documentModel.js');
 const httpServer = http.createServer(app);
 let timeout;
 
-const origin = process.env.CLIENT_URL; //'http://localhost:5173';
+const origin = process.env.CLIENT_URL; /* 'http://localhost:5173'; */
 
 const io = new Server(httpServer, {
     cors: {
@@ -39,8 +39,26 @@ io.on('connection', (socket) => {
 
         clearTimeout(timeout);
         timeout = setTimeout(async () => {
-            await Document.findOneAndUpdate({ _id: docId }, { content: content });
+            await Document.findOneAndUpdate(
+                { _id: docId },
+                { content: content }
+            );
         }, 2000);
+    });
+
+    socket.on('send_comment', async (data) => {
+        socket.to(data.docId).emit('receive_comment', data);
+
+        const received_comment = {
+            commentator: data.commentator,
+            text: data.selectedText,
+            comment: data.comment,
+        };
+
+        await Document.findOneAndUpdate(
+            { _id: data.docId },
+            { $push: { docComments: received_comment } }
+        );
     });
 });
 
