@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const commentSchema = new Schema({
-    commentator: { type: String, required: true },
-    text: { type: String, required: true },
-    comment: { type: String, required: true },
+    commentator: { type: String },
+    text: { type: String },
+    comment: { type: String },
 });
 
 const documentSchema = new Schema(
@@ -13,7 +13,7 @@ const documentSchema = new Schema(
         content: { type: String, required: true },
         creator: { type: String },
         docAccess: [{ type: String }],
-        docComments: [commentSchema],
+        docComments: [{ type: commentSchema, default: [] }],
     },
     { timestamps: true }
 );
